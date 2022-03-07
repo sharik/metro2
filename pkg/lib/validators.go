@@ -90,7 +90,11 @@ func (v *validator) validateRecord(r interface{}, spec map[string]field, recordN
 		if spec, ok := spec[fieldName]; ok {
 			if spec.Required == required {
 				fieldValue := fields.FieldByName(fieldName)
-				if fieldValue.IsZero() {
+				if fieldName == "CurrentBalance" {
+					if !fieldValue.IsValid() {
+						return utils.NewErrFieldRequired(fieldName, recordName)
+					}
+				} else if fieldValue.IsZero() {
 					return utils.NewErrFieldRequired(fieldName, recordName)
 				}
 			}

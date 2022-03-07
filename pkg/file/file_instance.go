@@ -247,15 +247,18 @@ func (f *fileInstance) String() string {
 
 	// Header Block
 	header := f.Header.String()
+	header += "\n"
 
 	// Data Block
 	data := ""
 	for _, base := range f.Bases {
 		data += base.String()
+		data += "\n"
 	}
 
 	// Trailer Block
 	trailer := f.Trailer.String()
+	trailer += "\n"
 
 	buf.Grow(len(header) + len(data) + len(trailer))
 	buf.WriteString(header)
