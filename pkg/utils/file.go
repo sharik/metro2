@@ -32,9 +32,9 @@ func IsVariableLength(s string) bool {
 
 	// Checking base record field 4
 	//  Field formerly used for Correction Indicator.
-	if s[17] == 0x30 {
-		return true
-	}
+	//if s[17] == 0x30 {
+	//	return true
+	//}
 
 	return false
 }

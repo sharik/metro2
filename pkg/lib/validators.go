@@ -50,7 +50,9 @@ func (v *validator) isValidType(elm field, data, fieldName, recordName string) e
 		if elm.Type&numeric > 0 {
 			val, _ := strconv.Atoi(data)
 			if val == 0 {
-				return utils.NewErrFieldRequired(fieldName, recordName)
+				if fieldName != "CurrentBalance" {
+					return utils.NewErrFieldRequired(fieldName, recordName)
+				}
 			}
 		} else if elm.Type&alphanumeric > 0 || elm.Type&alpha > 0 || elm.Type&descriptor > 0 {
 			if len(data) == 0 {
