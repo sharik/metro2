@@ -6,12 +6,12 @@ package utils
 
 import (
 	"bufio"
-	"os"
+	"io"
 	"strings"
 )
 
 // File Read
-func ReadFile(f *os.File) string {
+func ReadFile(f io.Reader) string {
 	scanner := bufio.NewScanner(f)
 	scanner.Split(bufio.ScanLines)
 	var lines []string

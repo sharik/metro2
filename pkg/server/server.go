@@ -5,10 +5,8 @@
 package server
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
-	"io"
 	"net/http"
 	"strings"
 
@@ -44,14 +42,10 @@ func parseInputFromRequest(r *http.Request) (file.File, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer src.Close()
 
-	var input bytes.Buffer
-	if _, err = io.Copy(&input, src); err != nil {
-		return nil, err
-	}
+	rawData := utils.ReadFile(src)
 
-	mf, err := file.CreateFile(input.Bytes())
+	mf, err := file.CreateFile([]byte(rawData))
 	if err != nil {
 		return nil, err
 	}
