@@ -7,6 +7,7 @@ package file
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"reflect"
 	"strings"
 	"unicode"
@@ -199,12 +200,14 @@ func (f *fileInstance) Parse(record string) error {
 	// Header Record
 	head, err := f.Header.Parse(record)
 	if err != nil {
-		return err
+		return utils.ExtendErrorMessage("Line Header", err)
 	}
 	offset += head
 
+	counter := 0
 	// Data Record
 	for err == nil {
+		counter += 1
 		var base lib.Record
 		if f.format == utils.PackedFileFormat {
 			base = lib.NewPackedBaseSegment()
@@ -218,7 +221,7 @@ func (f *fileInstance) Parse(record string) error {
 
 		read, err := base.Parse(record[offset:])
 		if err != nil {
-			return err
+			return utils.ExtendErrorMessage(fmt.Sprintf("Line %d", counter), err)
 		}
 		f.Bases = append(f.Bases, base)
 		offset += read
@@ -230,7 +233,7 @@ func (f *fileInstance) Parse(record string) error {
 	}
 	tread, err := f.Trailer.Parse(record[offset:])
 	if err != nil {
-		return err
+		return utils.ExtendErrorMessage("Line Footer", err)
 	}
 	offset += tread
 

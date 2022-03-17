@@ -91,3 +91,7 @@ func NewErrPhoneNumber(recordName string) error {
 func NewErrSegmentLength(recordName string) error {
 	return fmt.Errorf("%s has an invalid length", recordName)
 }
+
+func ExtendErrorMessage(message string, e error) error {
+	return fmt.Errorf("%s. %s", message, e.Error())
+}
