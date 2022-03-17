@@ -218,7 +218,7 @@ func (f *fileInstance) Parse(record string) error {
 
 		read, err := base.Parse(record[offset:])
 		if err != nil {
-			break
+			return err
 		}
 		f.Bases = append(f.Bases, base)
 		offset += read
